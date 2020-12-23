@@ -1,0 +1,164 @@
+var mode = 3;
+var arrColors;
+var selectedColor;
+var selectedBtn;
+var isGaveActive=0;
+var timeoutCount;
+
+let box = document.getElementById("box");
+let output = document.getElementById("output");
+
+
+// Get Random Color
+function getRandomColor()
+{
+    var r,g,b
+    r=Math.floor(Math.random() * (255 - 0 + 1) + 0);
+    g=Math.floor(Math.random() * (255 - 0 + 1) + 0);
+    b=Math.floor(Math.random() * (255 - 0 + 1) + 0);
+   // var rgbString = r + ", " + g + ", " + b;    
+    return r + ", " + g + ", " + b;
+}
+
+
+// This function accures when user select the color button
+function ButtonClick(clicked_id)
+{
+  
+  if (isGaveActive==1)// if game is active (not over)
+  {
+    //get clicked button
+    var button = document.getElementById(clicked_id); 
+    var messageBox = document.getElementById("messagebox");
+    //if buttons color is the selected color
+    if (clicked_id==selectedBtn){
+      button.innerText= "Well Done";
+      messageBox.innerText="Well Done"
+      //set game to not active
+      isGaveActive=0 
+      StopGameTimeOutCount();
+    }
+    else // wrong color box
+    {
+      //hide the color box
+      var div = document.getElementById('div'+clicked_id.replace('btn',''));
+      div.style.visibility = 'hidden';
+      //set messagebox to try again message
+      messageBox.innerText="Try Again !!!"
+      setTimeout(function(){ 
+        messageBox.innerText=""
+      }, 1500);  
+    }
+  }
+}
+
+// This function loads the Game
+function LoadGame()
+{
+  var messageBox = document.getElementById("messagebox");
+  var output2 = document.getElementById("output");
+  var outputInnerHTML = "";
+
+  //set game to active
+  isGaveActive=1;
+  messageBox.innerText="";
+  //Load Array of colors by the level (3 -easy , 6 - medium , 9 - hard)
+    arrColors = new Array(mode);
+    outputInnerHTML += "<div class='folders'>"
+    for(i = 0; i < arrColors.length; i++) {
+      //get random color and enter it into the Array
+      arrColors[i] = getRandomColor();
+      //draw the color rectangle in HTML
+      outputInnerHTML += "<div id='div"+i+"' class='folder'><p><button class='btn' id='btn"+i+"' style='background-color:rgb(" + arrColors[i] + ");' onclick='ButtonClick(this.id)'; > </button></p></div>";
+      //alert(arrColors[i])
+    }
+    outputInnerHTML += "</div>"
+    output2.innerHTML=outputInnerHTML
+
+    // Set the selected color to the header
+    var label2 = document.getElementById("id1");
+    var selectedIndex = Math.floor(Math.random() * ((mode-1) - 0 + 1) + 0);
+    selectedColor=arrColors[selectedIndex]
+    //label2.style.color = 'rgb(' + arrColors[selectedIndex] + ')'
+    label2.innerText = "RGB (" + arrColors[selectedIndex] +")";//+" index:"+selectedIndex
+    selectedBtn = 'btn'+selectedIndex;
+
+    //Start game timeout count
+    StartGameTimeOutCount();
+}
+
+//This function when click on the level (mode) buttons
+function SetLevel(level){
+  mode = level;
+  var btnEasy = document.getElementById("mode3");
+  var btnMed = document.getElementById("mode6");
+  var btnHard = document.getElementById("mode9");
+  btnEasy.className="";
+  btnMed.className="";
+  btnHard.className="";
+  //set the level button to selected
+  if (level==3){
+    btnEasy.className="active"
+  }else if (level==6 )
+  {
+    btnMed.className="active"
+  }else{
+    btnHard.className="active"
+  }
+  LoadGame();
+}
+// This function start the counter of the game
+function StartGameTimeOutCount() {
+  if (timeoutCount!= "")
+  {
+    StopGameTimeOutCount();
+    timeoutCount="";
+  }
+
+  timeoutCount = setTimeout(() => {
+  //when game validation is over show message and lock the colorboxs
+  var messageBox = document.getElementById("messagebox");
+  messageBox.innerText = "Timeout validation 1 minute - start new game";
+  isGaveActive=0;
+    }, 60000);
+}
+
+
+function StopGameTimeOutCount() {
+  clearTimeout(timeoutCount);
+}
+
+
+
+/*
+/*change selected color
+function ChangeColor()
+{
+  var label2 = document.getElementById("id1");
+  var strRGB = getRandomColor()
+  label2.style.color = 'rgb(' + strRGB + ')'
+  label2.innerText = strRGB
+
+}
+
+
+label.addEventListener("click",function(event) {
+  label.style.borderColor ='rgb(' + getRandomColor() + ')';
+}, false);
+
+
+let label = document.getElementById("id1");
+let button = document.getElementById("button1");
+
+
+colorPicker.addEventListener("input", function(event) {
+  box.style.borderColor = event.target.value;
+}, false);
+
+colorPicker.addEventListener("change", function(event) {
+  output.innerText = "Color set to " + colorPicker.value + ".";
+}, false);
+
+box.style.borderColor = colorPicker.value;
+/*
+*/

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <script src="script.js"></script>
+
+
+    <!-- Top Panel-->
+    <div class="headerPanel">
+      <h3 >Welcome to the Color Game </h3>  
+      <h1 id="id1">Select "New Colors" to start the game</h1>
+      <h3 > By Eli Turetsky & Matan Mizrahi </h3>    
+    </div>
+    
+
+  
+   <!-- Toolbar-->
+    <div class="topnav">
+     
+      <div class="topnavleft">
+        <a onclick="LoadGame()" >New Colors</a>
+      </div>
+
+      <div class="topnavright">
+        <a id="mode9" onclick="SetLevel(9)">Hard</a>
+        <a id="mode6" onclick="SetLevel(6)">Medium</a>
+        <a class="active" id="mode3" onclick="SetLevel(3)">Easy</a>
+      </div>
+      <div id="messagebox" class="topnavCenter">
+      </div>
+    </div>
+   
+  
+  <!-- Body of game-->
+  <div class="outputbody">
+    <p id="output"></p>
+  </div>
+
+
+
+
+  </body>
+</html>
